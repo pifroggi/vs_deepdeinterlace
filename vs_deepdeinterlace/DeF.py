@@ -124,6 +124,11 @@ def process_frame(n: int, f: vs.VideoFrame, clip: vs.VideoNode, model, device, t
     return output_frame
 
 def DeF(clip: vs.VideoNode, tff=False, taa=False, device='cuda') -> vs.VideoNode:
+
+    #checks
+    if clip.format.id not in [vs.RGBS]:
+        raise ValueError("Input clip must be in RGBS format.")
+
     device = torch.device(device)
     current_dir = os.path.dirname(__file__)
     model_path = os.path.join(current_dir, 'DeF_files', 'DeF.pth')
