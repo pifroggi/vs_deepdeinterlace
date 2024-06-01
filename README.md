@@ -40,8 +40,6 @@ __*device*__
 Possible values are "cuda" to use with an Nvidia GPU, or "cpu". DDD is kind of usable on CPU, but DfConvEkSA and DeF are extremely slow.
 
 ## Tips
-The deinterlacers work okay for detelecining, but fail to use all information from the correct field on fast motions.  
-
-If you would like to finetune or improve the results, consider using one of these deinterlacers as "EdiExt"-clip in [QTGMC](https://github.com/HomeOfVapourSynthEvolution/havsfunc/blob/f11d79c98589c9dcb5b10beec35b631db68b495c/havsfunc/havsfunc.py#L1912).  
-
-In my testing DeF seemed to perform similarly to DDD, but 10x slower. I have included it anyway in case it works better for someone else.
+* The deinterlacers work okay for detelecining, but fail to use all information from the correct field on fast motions.
+* If you would like to finetune or improve the results, consider using one of these deinterlacers as "EdiExt"-clip in [QTGMC](https://github.com/HomeOfVapourSynthEvolution/havsfunc/blob/f11d79c98589c9dcb5b10beec35b631db68b495c/havsfunc/havsfunc.py#L1912).
+* In my testing DeF seemed to perform similarly to DDD, but 10x slower. I have included it anyway in case it works better for someone else.
