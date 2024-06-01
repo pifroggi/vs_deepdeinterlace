@@ -1,3 +1,10 @@
+
+# Original paper by Michael Bernasconi, Abdelaziz Djelouah, Sally Hattori, and Christopher Schroers https://studios.disneyresearch.com/2020/11/10/deep-deinterlacing/
+# Unofficial implementation code, which was used for this and to train the model by vincentvdschaft https://github.com/vincentvdschaft/Disney-Deep-Deinterlacing
+
+# Vapoursynth implementation by pifroggi
+# or tepete on the "Enhance Everything!" Discord Server
+
 import vapoursynth as vs
 import os
 import torch
