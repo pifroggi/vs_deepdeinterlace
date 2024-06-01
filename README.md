@@ -1,5 +1,5 @@
 # AI Deinterlacing functions for Vapoursynth
-A collection of three deep learning deinterlacers (not detelecine).
+A collection of three deep learning deinterlacers (not detelecine).  
 This will double the frame rate, for example from 30i to 60p.
 
 ## Requirements
