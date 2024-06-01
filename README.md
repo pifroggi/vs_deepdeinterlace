@@ -26,10 +26,10 @@ Drop the entire "vs_deepdeinterlace" folder to where you typically load scripts 
     clip = vs_deepdeinterlace.DeF(clip, tff=True, taa=False, device='cuda')
 
 __*clip*__  
-Interlaced clip. Not be seperated into fields.
+Interlaced clip. Not seperated into fields.
 
 __*tff*__  
-Top-Field-First. Set to False to use Bottom-Field-First.
+Top Field First if True. Bottom Field First if False.
 
 __*taa*__  
 Test-Time Augmentation. Increases quality a bit, but quadruples processing time.  
@@ -40,4 +40,5 @@ Possible values are "cuda" to use with an Nvidia GPU, or "cpu". DDD is kind of u
 
 ## Tips
 If you would like to finetune or improve the results, consider using one of these deinterlacers as "EdiExt"-clip in [QTGMC](https://github.com/HomeOfVapourSynthEvolution/havsfunc/blob/f11d79c98589c9dcb5b10beec35b631db68b495c/havsfunc/havsfunc.py#L1912).  
+
 In my testing DeF seemed to perform similarly to DDD, but 10x slower. I have included it anyway in case it works better for someone else.
