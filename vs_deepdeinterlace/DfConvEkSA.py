@@ -106,6 +106,11 @@ def process_frame(n: int, f: vs.VideoFrame, clip: vs.VideoNode, device, model, t
     return output_frame
 
 def DfConvEkSA(clip: vs.VideoNode, tff=False, taa=False, device='cuda') -> vs.VideoNode:
+
+    #checks
+    if clip.format.id not in [vs.RGBS]:
+        raise ValueError("Input clip must be in RGBS format.")
+
     device = torch.device(device)
     current_dir = os.path.dirname(__file__)
     model_path = os.path.join(current_dir, 'DfConvEkSA_files', 'DfConvEkSA_dim64k50_trainonYOUKU_150000_G.pth')
@@ -117,11 +122,3 @@ def DfConvEkSA(clip: vs.VideoNode, tff=False, taa=False, device='cuda') -> vs.Vi
     #double frame height because for ModifyFrame input and output frames must have same dimensions
     clip = core.std.AddBorders(clip, bottom=clip.height)
     return clip.std.ModifyFrame(clips=[clip], selector=functools.partial(process_frame, clip=clip, device=device, model=model, tff=tff, taa=taa))
-    
-    
-    
-    
-    
-    
-    
-    
