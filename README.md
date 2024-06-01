@@ -27,7 +27,7 @@ Drop the entire "vs_deepdeinterlace" folder to where you typically load scripts 
     clip = vs_deepdeinterlace.DeF(clip, tff=True, taa=False, device='cuda')
 
 __*clip*__  
-Interlaced clip. Not seperated into fields.
+Interlaced clip, not seperated into fields. Must be in RGBS format.
 
 __*tff*__  
 Top Field First if True. Bottom Field First if False.
