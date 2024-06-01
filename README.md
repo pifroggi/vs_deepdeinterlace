@@ -1,27 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # AI Deinterlacing functions for Vapoursynth
 A collection of three deep learning deinterlacers.
 
@@ -38,9 +14,9 @@ Drop the entire "vs_deepdeinterlace" folder to where you typically load scripts 
 ## Deinterlacers
 | Deinterlacer | Quality | Speed     | Hardware | Paper                                                                     | Code 
 | ------------ | ------- | --------- | ---------| ------------------------------------------------------------------------- | ----
-| DfConvEkSA   | Best    | ~5 fps    | RTX 4090 | [Link](https://arxiv.org/pdf/2404.13018)                                  | [Link](https://github.com/KUIS-AI-Tekalp-Research-Group/Video-Deinterlacing)
-| DDD          | Okay    | ~40 fps   | RTX 4090 | [Link](https://studios.disneyresearch.com/2020/11/10/deep-deinterlacing/) | [Link](https://github.com/vincentvdschaft/Disney-Deep-Deinterlacing)
-| DeF          | Okay    | ~3 fps    | RTX 4090 | [Link](https://link.springer.com/chapter/10.1007/978-981-99-8073-4_28)    | [Link](https://github.com/Anonymous2022-cv/DeT)
+| DfConvEkSA   | Higher  | ~5 fps    | RTX 4090 | [Link](https://arxiv.org/pdf/2404.13018)                                  | [Link](https://github.com/KUIS-AI-Tekalp-Research-Group/Video-Deinterlacing)
+| DDD          | Lower   | ~40 fps   | RTX 4090 | [Link](https://studios.disneyresearch.com/2020/11/10/deep-deinterlacing/) | [Link](https://github.com/vincentvdschaft/Disney-Deep-Deinterlacing)
+| DeF          | Lower   | ~3 fps    | RTX 4090 | [Link](https://link.springer.com/chapter/10.1007/978-981-99-8073-4_28)    | [Link](https://github.com/Anonymous2022-cv/DeT)
 
 ## Usage
 
@@ -50,7 +26,7 @@ Drop the entire "vs_deepdeinterlace" folder to where you typically load scripts 
     clip = vs_deepdeinterlace.DeF(clip, tff=True, taa=False, device='cuda')
 
 __*clip*__  
-Interlaced clip. The clip is expected to not be seperated into fields, but interweaved.
+Interlaced clip. Not be seperated into fields.
 
 __*tff*__  
 Top-Field-First. Set to False to use Bottom-Field-First.
