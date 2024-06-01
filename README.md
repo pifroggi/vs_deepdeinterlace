@@ -13,17 +13,20 @@ This will double the frame rate, for example from 30i to 60p.
 Drop the entire "vs_deepdeinterlace" folder to where you typically load scripts from.
 
 ## Deinterlacers
-| Deinterlacer | Quality | Speed     | Hardware | Paper                                                                     | Code 
-| ------------ | ------- | --------- | ---------| ------------------------------------------------------------------------- | ----
-| DfConvEkSA   | Higher  | ~5 fps    | RTX 4090 | [Link](https://arxiv.org/pdf/2404.13018)                                  | [Link](https://github.com/KUIS-AI-Tekalp-Research-Group/Video-Deinterlacing)
-| DDD          | Lower   | ~40 fps   | RTX 4090 | [Link](https://studios.disneyresearch.com/2020/11/10/deep-deinterlacing/) | [Link](https://github.com/vincentvdschaft/Disney-Deep-Deinterlacing)
-| DeF          | Lower   | ~3 fps    | RTX 4090 | [Link](https://link.springer.com/chapter/10.1007/978-981-99-8073-4_28)    | [Link](https://github.com/Anonymous2022-cv/DeT)
+| Deinterlacer | Quality | Speed     | Resolution | Hardware | Paper                                                                     | Code 
+| ------------ | ------- | --------- | ---------- | -------- | ------------------------------------------------------------------------- | ----
+| DfConvEkSA   | Higher  | ~5 fps    | 720x480    | RTX 4090 | [Link](https://arxiv.org/pdf/2404.13018)                                  | [Link](https://github.com/KUIS-AI-Tekalp-Research-Group/Video-Deinterlacing)
+| DDD          | Lower   | ~40 fps   | 720x480    | RTX 4090 | [Link](https://studios.disneyresearch.com/2020/11/10/deep-deinterlacing/) | [Link](https://github.com/vincentvdschaft/Disney-Deep-Deinterlacing)
+| DeF          | Lower   | ~3 fps    | 720x480    | RTX 4090 | [Link](https://link.springer.com/chapter/10.1007/978-981-99-8073-4_28)    | [Link](https://github.com/Anonymous2022-cv/DeT)
 
 ## Usage
 
     import vs_deepdeinterlace
+    
     clip = vs_deepdeinterlace.DfConvEkSA(clip, tff=True, taa=False, device='cuda')
+    
     clip = vs_deepdeinterlace.DDD(clip, tff=True, taa=False, device='cuda')
+    
     clip = vs_deepdeinterlace.DeF(clip, tff=True, taa=False, device='cuda')
 
 __*clip*__  
