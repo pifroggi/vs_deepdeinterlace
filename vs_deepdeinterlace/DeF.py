@@ -1,3 +1,9 @@
+# Original paper https://link.springer.com/chapter/10.1007/978-981-99-8073-4_28
+# Original code https://github.com/Anonymous2022-cv/DeT
+
+# Vapoursynth implementation by pifroggi
+# or tepete on the "Enhance Everything!" Discord Server
+
 import vapoursynth as vs
 import os
 import torch
