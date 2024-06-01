@@ -100,6 +100,11 @@ def process_frame(n: int, f: vs.VideoFrame, clip: vs.VideoNode, model, device, t
     return output_frame
 
 def DDD(clip: vs.VideoNode, tff=False, taa=False, device='cuda') -> vs.VideoNode:
+
+    #checks
+    if clip.format.id not in [vs.RGBS]:
+        raise ValueError("Input clip must be in RGBS format.")
+
     device = torch.device(device)
     current_dir = os.path.dirname(os.path.abspath(__file__))
     model_config_path = os.path.join(current_dir, 'DDD_files', 'model_config.yaml')
@@ -116,13 +121,3 @@ def DDD(clip: vs.VideoNode, tff=False, taa=False, device='cuda') -> vs.VideoNode
     clip = clip.std.ModifyFrame(clips=[clip], selector=functools.partial(process_frame, clip=clip, model=model, device=device, tff=tff, taa=taa))
     clip = core.std.Transpose(clip)
     return clip
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
