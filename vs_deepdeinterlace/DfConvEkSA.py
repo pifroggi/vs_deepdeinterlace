@@ -1,3 +1,10 @@
+
+# Original paper https://arxiv.org/pdf/2404.13018
+# Original code https://github.com/KUIS-AI-Tekalp-Research-Group/Video-Deinterlacing
+
+# Vapoursynth implementation by pifroggi
+# or tepete on the "Enhance Everything!" Discord Server
+
 import vapoursynth as vs
 import os
 import torch
