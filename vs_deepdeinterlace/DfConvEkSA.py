@@ -10,7 +10,6 @@ import os
 import torch
 import numpy as np
 import functools
-from .DfConvEkSA_files.DfConvEkSA_arch import DfConvEkSA_arch
 
 core = vs.core
 
@@ -108,7 +107,8 @@ def process_frame(n: int, f: vs.VideoFrame, clip: vs.VideoNode, device, model, t
     return output_frame
 
 def DfConvEkSA(clip: vs.VideoNode, tff=False, tta=False, device='cuda', fp16=False) -> vs.VideoNode:
-
+    from .DfConvEkSA_files.DfConvEkSA_arch import DfConvEkSA_arch
+    
     #checks
     if clip.format.id not in [vs.RGBS]:
         raise ValueError("Input clip must be in RGBS format.")
