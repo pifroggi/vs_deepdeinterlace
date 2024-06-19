@@ -15,10 +15,12 @@ from .DeF_files.DeF_arch import DeF_arch
 core = vs.core
 
 def frame_to_array(frame: vs.VideoFrame) -> np.ndarray:
-    full_image = np.dstack([np.asarray(frame[p]) for p in range(frame.format.num_planes)])
+    array = np.empty((frame.height, frame.width, 3), dtype=np.float32)
+    for p in range(frame.format.num_planes):
+        array[..., p] = np.asarray(frame[p], dtype=np.float32)
     #remove the added border
-    half_height = full_image.shape[0] // 2
-    return full_image[:half_height]
+    half_height = array.shape[0] // 2
+    return array[:half_height]
 
 def array_to_frame(img: np.ndarray, frame: vs.VideoFrame):
     for p in range(frame.format.num_planes):
@@ -65,7 +67,7 @@ def interpolate(frame, even):
             doubled_frame[2 * i + 1] = frame[i]
     return doubled_frame
 
-def inference(arrays, even_values, model, device):
+def inference(arrays, even_values, model, device, fp16):
     with torch.no_grad():
         IR0_even = interpolate(arrays[0], even=even_values[0])
         IR1_odd = interpolate(arrays[1], even=even_values[1])
@@ -75,12 +77,22 @@ def inference(arrays, even_values, model, device):
         IR1_odd = torch.from_numpy(IR1_odd.transpose((2, 0, 1))).unsqueeze(0).to(device)
         IR2_even = torch.from_numpy(IR2_even.transpose((2, 0, 1))).unsqueeze(0).to(device)
 
+        if fp16:
+            IR0_even = IR0_even.half()
+            IR1_odd = IR1_odd.half()
+            IR2_even = IR2_even.half()
+
         input = torch.cat((IR0_even.unsqueeze(1), IR1_odd.unsqueeze(1), IR2_even.unsqueeze(1)), dim=1)
-        re_frame = model(input).cpu().numpy().squeeze(0).transpose(1, 2, 0)
+        re_frame = model(input).cpu()
+        
+        if fp16:
+            re_frame = re_frame.float()
+        
+        re_frame = re_frame.numpy().squeeze(0).transpose(1, 2, 0)
         
         return re_frame
 
-def process_frame(n: int, f: vs.VideoFrame, clip: vs.VideoNode, model, device, tff=False, taa=False) -> vs.VideoFrame:
+def process_frame(n: int, f: vs.VideoFrame, clip: vs.VideoNode, model, device, tff=False, tta=False, fp16=False) -> vs.VideoFrame:
     frames = [
         clip.get_frame(mirror_index(n, i, clip.num_frames)) 
         for i in range(-1, 2)
@@ -100,7 +112,7 @@ def process_frame(n: int, f: vs.VideoFrame, clip: vs.VideoNode, model, device, t
             (n % 2 == 0)   # for IR2
         ]
     
-    if taa:
+    if tta:
         augmentations = [
             {'inverse': False, 'reverse': False},
             {'inverse': True, 'reverse': False},
@@ -111,19 +123,19 @@ def process_frame(n: int, f: vs.VideoFrame, clip: vs.VideoNode, model, device, t
         augmented_results = []
         for aug in augmentations:
             augmented_arrays = apply_augmentations(arrays, **aug)
-            output_img = inference(augmented_arrays, even_values, model, device)
+            output_img = inference(augmented_arrays, even_values, model, device, fp16)
             reversed_img = reverse_augmentations(output_img, **aug)
             augmented_results.append(reversed_img)
         
         output_img = np.mean(augmented_results, axis=0)
     else:
-        output_img = inference(arrays, even_values, model, device)
+        output_img = inference(arrays, even_values, model, device, fp16)
     
     output_frame = f.copy()
     array_to_frame(output_img, output_frame)
     return output_frame
 
-def DeF(clip: vs.VideoNode, tff=False, taa=False, device='cuda') -> vs.VideoNode:
+def DeF(clip: vs.VideoNode, tff=False, tta=False, device='cuda', fp16=True) -> vs.VideoNode:
 
     #checks
     if clip.format.id not in [vs.RGBS]:
@@ -134,11 +146,13 @@ def DeF(clip: vs.VideoNode, tff=False, taa=False, device='cuda') -> vs.VideoNode
     model_path = os.path.join(current_dir, 'DeF_files', 'DeF.pth')
     model = DeF_arch()
     model.load_state_dict(torch.load(model_path))
-    model.to(device)
+    model.to(device)    
     model.eval()
+    
+    if fp16:
+        model.half()
     
     clip = core.std.SeparateFields(clip, tff=tff)
     #double frame height because for ModifyFrame input and output frames must have same dimensions
     clip = core.std.AddBorders(clip, bottom=clip.height)
-    return clip.std.ModifyFrame(clips=[clip], selector=functools.partial(process_frame, clip=clip, model=model, device=device, tff=tff, taa=taa))
-
+    return clip.std.ModifyFrame(clips=[clip], selector=functools.partial(process_frame, clip=clip, model=model, device=device, tff=tff, tta=tta, fp16=fp16))
