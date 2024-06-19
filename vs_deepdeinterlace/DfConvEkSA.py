@@ -15,10 +15,12 @@ from .DfConvEkSA_files.DfConvEkSA_arch import DfConvEkSA_arch
 core = vs.core
 
 def frame_to_array(frame: vs.VideoFrame) -> np.ndarray:
-    full_image = np.dstack([np.asarray(frame[p]) for p in range(frame.format.num_planes)])
+    array = np.empty((frame.height, frame.width, 3), dtype=np.float32)
+    for p in range(frame.format.num_planes):
+        array[..., p] = np.asarray(frame[p], dtype=np.float32)
     #remove the added border
-    half_height = full_image.shape[0] // 2
-    return full_image[:half_height]
+    half_height = array.shape[0] // 2
+    return array[:half_height]
 
 def array_to_frame(img: np.ndarray, frame: vs.VideoFrame):
     for p in range(frame.format.num_planes):
@@ -68,7 +70,7 @@ def inference(arrays, device, model):
         output = model(imgs_LQ)
         return output
 
-def process_frame(n: int, f: vs.VideoFrame, clip: vs.VideoNode, device, model, tff=False, taa=False) -> vs.VideoFrame:
+def process_frame(n: int, f: vs.VideoFrame, clip: vs.VideoNode, device, model, tff=False, tta=False) -> vs.VideoFrame:
     frames = [clip.get_frame(mirror_index(n, i, clip.num_frames)) for i in range(-2, 3)]
     arrays = [frame_to_array(frame) for frame in frames]
     
@@ -77,7 +79,7 @@ def process_frame(n: int, f: vs.VideoFrame, clip: vs.VideoNode, device, model, t
     if flip:
         arrays = [np.flipud(arr) for arr in arrays]
     
-    if taa:
+    if tta:
         augmentations = [
             {'inverse': False, 'reverse': False},
             {'inverse': True, 'reverse': False},
@@ -105,11 +107,14 @@ def process_frame(n: int, f: vs.VideoFrame, clip: vs.VideoNode, device, model, t
     array_to_frame(output_img, output_frame)
     return output_frame
 
-def DfConvEkSA(clip: vs.VideoNode, tff=False, taa=False, device='cuda') -> vs.VideoNode:
+def DfConvEkSA(clip: vs.VideoNode, tff=False, tta=False, device='cuda', fp16=False) -> vs.VideoNode:
 
     #checks
     if clip.format.id not in [vs.RGBS]:
         raise ValueError("Input clip must be in RGBS format.")
+
+    if fp16 is True:
+        raise ValueError("DfConvEkSA does not work with fp16.")
 
     device = torch.device(device)
     current_dir = os.path.dirname(__file__)
@@ -121,4 +126,4 @@ def DfConvEkSA(clip: vs.VideoNode, tff=False, taa=False, device='cuda') -> vs.Vi
     clip = core.std.SeparateFields(clip, tff=tff)
     #double frame height because for ModifyFrame input and output frames must have same dimensions
     clip = core.std.AddBorders(clip, bottom=clip.height)
-    return clip.std.ModifyFrame(clips=[clip], selector=functools.partial(process_frame, clip=clip, device=device, model=model, tff=tff, taa=taa))
+    return clip.std.ModifyFrame(clips=[clip], selector=functools.partial(process_frame, clip=clip, device=device, model=model, tff=tff, tta=tta))
