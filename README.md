@@ -3,11 +3,11 @@ A collection of three temporally aware deep learning deinterlacers.
 This will double the frame rate, for example from 30i to 60p.  
 
 ## Requirements
+* [pytorch](https://pytorch.org/)
 * pip install numpy
 * pip install positional_encodings (optional, only for DeF)
-* pip install -U openmim (optional, only for DfConv_EkSA)
-* mim install mmcv (optional, only for DfConv_EkSA)
-* [pytorch](https://pytorch.org/)
+* pip install -U openmim && mim install mmcv (optional, only for DfConv_EkSA)
+
 
 ## Setup
 Drop the entire "vs_deepdeinterlace" folder to where you typically load scripts from.
@@ -16,31 +16,36 @@ Drop the entire "vs_deepdeinterlace" folder to where you typically load scripts 
 | Deinterlacer | Quality | Speed     | Resolution | Hardware | Paper                                                                     | Code 
 | ------------ | ------- | --------- | ---------- | -------- | ------------------------------------------------------------------------- | ----
 | DfConvEkSA   | Higher  | ~5 fps    | 720x480    | RTX 4090 | [Link](https://arxiv.org/pdf/2404.13018)                                  | [Link](https://github.com/KUIS-AI-Tekalp-Research-Group/Video-Deinterlacing)
-| DDD          | Lower   | ~40 fps   | 720x480    | RTX 4090 | [Link](https://studios.disneyresearch.com/2020/11/10/deep-deinterlacing/) | [Link](https://github.com/vincentvdschaft/Disney-Deep-Deinterlacing)
-| DeF          | Lower   | ~3 fps    | 720x480    | RTX 4090 | [Link](https://link.springer.com/chapter/10.1007/978-981-99-8073-4_28)    | [Link](https://github.com/Anonymous2022-cv/DeT)
+| DeF          | Lower   | ~6 fps    | 720x480    | RTX 4090 | [Link](https://link.springer.com/chapter/10.1007/978-981-99-8073-4_28)    | [Link](https://github.com/Anonymous2022-cv/DeT)
+| DDD          | Lower   | ~50 fps   | 720x480    | RTX 4090 | [Link](https://studios.disneyresearch.com/2020/11/10/deep-deinterlacing/) | [Link](https://github.com/vincentvdschaft/Disney-Deep-Deinterlacing)
 
 ## Usage
 
     import vs_deepdeinterlace
     
-    clip = vs_deepdeinterlace.DfConvEkSA(clip, tff=True, taa=False, device='cuda')
+    clip = vs_deepdeinterlace.DfConvEkSA(clip, tff=True, tta=False, device="cuda")
     
-    clip = vs_deepdeinterlace.DDD(clip, tff=True, taa=False, device='cuda')
-    
-    clip = vs_deepdeinterlace.DeF(clip, tff=True, taa=False, device='cuda')
+    clip = vs_deepdeinterlace.DeF(clip, tff=True, tta=False, device="cuda", fp16=True)
 
-__*clip*__  
+    clip = vs_deepdeinterlace.DDD(clip, tff=True, tta=False, device="cuda", fp16=True)
+
+  
+__*`clip`*__  
 Interlaced clip, not seperated into fields. Must be in RGBS format.
 
-__*tff*__  
+__*`tff`*__  
 Top Field First if True. Bottom Field First if False.
 
-__*taa*__  
+__*`tta`* (optional)__  
 Test-Time Augmentation. Increases quality a bit, but quadruples processing time.  
 In addition to the normal deinterlacing, frames will be augmented by inverting, time reversing, and a combination of both. Then deinterlaced, augmentations reversed, and all 4 results averaged to get a more "true" result.
 
-__*device*__  
-Possible values are "cuda" to use with an Nvidia GPU, or "cpu". DDD is kind of usable on CPU, but DfConvEkSA and DeF are extremely slow.
+__*`device`* (optional)__  
+Possible values are "cuda" to use with an Nvidia GPU, or "cpu". DDD is usable on CPU, but DfConvEkSA and DeF are extremely slow.
+
+__*`fp16`* (optional)__  
+Up to doubles processing speed and halves VRAM usage. Strongly recommended if your GPU supports it. Does not work on CPU. DfConvEkSA does not support fp16 mode.
+
 
 ## Tips
 * The deinterlacers work okay for animation, but fail to use all information from the correct field on fast motions.
