@@ -10,7 +10,6 @@ import os
 import torch
 import numpy as np
 import functools
-from .DeF_files.DeF_arch import DeF_arch
 
 core = vs.core
 
@@ -136,7 +135,8 @@ def process_frame(n: int, f: vs.VideoFrame, clip: vs.VideoNode, model, device, t
     return output_frame
 
 def DeF(clip: vs.VideoNode, tff=False, tta=False, device='cuda', fp16=True) -> vs.VideoNode:
-
+    from .DeF_files.DeF_arch import DeF_arch
+    
     #checks
     if clip.format.id not in [vs.RGBS]:
         raise ValueError("Input clip must be in RGBS format.")
