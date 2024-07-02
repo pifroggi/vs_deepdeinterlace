@@ -2,8 +2,7 @@
 A collection of three temporally aware deep learning deinterlacers.  
 This will double the frame rate, for example from 30i to 60p.  
 
-## Deinterlacers
-| Deinterlacer | Quality | Speed     | Resolution | Hardware | Paper                                                                     | Code 
+| Deinterlacer | Quality | Speed     | Test Resolution | Hardware | Paper                                                                     | Code 
 | ------------ | ------- | --------- | ---------- | -------- | ------------------------------------------------------------------------- | ----
 | DfConvEkSA   | Higher  | ~5 fps    | 720x480    | RTX 4090 | [Link](https://arxiv.org/pdf/2404.13018)                                  | [Link](https://github.com/KUIS-AI-Tekalp-Research-Group/Video-Deinterlacing)
 | DeF          | Lower   | ~6 fps    | 720x480    | RTX 4090 | [Link](https://link.springer.com/chapter/10.1007/978-981-99-8073-4_28)    | [Link](https://github.com/Anonymous2022-cv/DeT)
