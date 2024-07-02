@@ -2,6 +2,13 @@
 A collection of three temporally aware deep learning deinterlacers.  
 This will double the frame rate, for example from 30i to 60p.  
 
+## Deinterlacers
+| Deinterlacer | Quality | Speed     | Resolution | Hardware | Paper                                                                     | Code 
+| ------------ | ------- | --------- | ---------- | -------- | ------------------------------------------------------------------------- | ----
+| DfConvEkSA   | Higher  | ~5 fps    | 720x480    | RTX 4090 | [Link](https://arxiv.org/pdf/2404.13018)                                  | [Link](https://github.com/KUIS-AI-Tekalp-Research-Group/Video-Deinterlacing)
+| DeF          | Lower   | ~6 fps    | 720x480    | RTX 4090 | [Link](https://link.springer.com/chapter/10.1007/978-981-99-8073-4_28)    | [Link](https://github.com/Anonymous2022-cv/DeT)
+| DDD          | Lower   | ~50 fps   | 720x480    | RTX 4090 | [Link](https://studios.disneyresearch.com/2020/11/10/deep-deinterlacing/) | [Link](https://github.com/vincentvdschaft/Disney-Deep-Deinterlacing)
+
 ## Requirements
 * [pytorch](https://pytorch.org/)
 * pip install numpy
@@ -11,13 +18,6 @@ This will double the frame rate, for example from 30i to 60p.
 
 ## Setup
 Drop the entire "vs_deepdeinterlace" folder to where you typically load scripts from.
-
-## Deinterlacers
-| Deinterlacer | Quality | Speed     | Resolution | Hardware | Paper                                                                     | Code 
-| ------------ | ------- | --------- | ---------- | -------- | ------------------------------------------------------------------------- | ----
-| DfConvEkSA   | Higher  | ~5 fps    | 720x480    | RTX 4090 | [Link](https://arxiv.org/pdf/2404.13018)                                  | [Link](https://github.com/KUIS-AI-Tekalp-Research-Group/Video-Deinterlacing)
-| DeF          | Lower   | ~6 fps    | 720x480    | RTX 4090 | [Link](https://link.springer.com/chapter/10.1007/978-981-99-8073-4_28)    | [Link](https://github.com/Anonymous2022-cv/DeT)
-| DDD          | Lower   | ~50 fps   | 720x480    | RTX 4090 | [Link](https://studios.disneyresearch.com/2020/11/10/deep-deinterlacing/) | [Link](https://github.com/vincentvdschaft/Disney-Deep-Deinterlacing)
 
 ## Usage
 
@@ -48,6 +48,6 @@ Up to doubles processing speed and halves VRAM usage. Strongly recommended if yo
 
 
 ## Tips
-* The deinterlacers work okay for animation, but fail to use all information from the correct field on fast motions.
 * If you would like to finetune or improve the results, consider using one of these deinterlacers as "EdiExt"-clip in [QTGMC](https://github.com/HomeOfVapourSynthEvolution/havsfunc/blob/f11d79c98589c9dcb5b10beec35b631db68b495c/havsfunc/havsfunc.py#L1912).
+* The deinterlacers work okay for animation, but fail to use all information from the correct field on fast motions. May still be useful for orphaned fields.
 * In my testing DeF seemed to perform similarly to DDD, but 10x slower. I have included it anyway in case it works better for someone else.
