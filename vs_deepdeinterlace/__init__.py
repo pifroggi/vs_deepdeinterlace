@@ -7,10 +7,12 @@ from .DDD import DDD
 
 core = vs.core
 
-#combined deinterlacer uses two of the ones in this package to first deinterlace, then for every frame, align the surrounding frames to it, then deinterlaces again
-#this makes deinterlacing on fast movements much better, but is also slower
+#Info on DfConvEkSA+:  
+#It is an unofficial motion compensated DfConvEkSA. It first uses DDD to create a quick deinterlaced clip as a reference, then for every frame,
+#aligns the surrounding frames to the middle one with vs_align, then deinterlaces again with DfConvEkSA.
+#This makes deinterlacing on fast movements much better, but is also slower. There is also an improvement on static shots, but not as much.
 
-def combined(clip, tff=False, tta=False, device='cuda', fp16=True):
+def DfConvEkSAplus(clip, tff=False, tta=False, device='cuda', fp16=True):
     import vs_align
     
     #checks
