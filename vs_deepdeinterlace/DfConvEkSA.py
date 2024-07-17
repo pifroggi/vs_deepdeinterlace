@@ -160,8 +160,6 @@ def DfConvEkSA(clip: vs.VideoNode, tff=False, tta=False, mocomp=False, device='c
     #checks
     if clip.format.id not in [vs.RGBS]:
         raise ValueError("Input clip must be in RGBS format.")
-    if fp16 is True and mocomp is False:
-        raise ValueError("DfConvEkSA only benefits from fp16 when mocomp is active.")
 
     device = torch.device(device)
     current_dir = os.path.dirname(__file__)
