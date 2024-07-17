@@ -32,10 +32,6 @@ class DCN(ModulatedDeformConv2d):
         offset = torch.cat((o1, o2), dim=1)
         mask = torch.sigmoid(mask)
 
-        offset_mean = torch.mean(torch.abs(offset))
-        if offset_mean > 100:
-            logger.warning('Offset mean is {}, larger than 100.'.format(offset_mean))
-
         return modulated_deform_conv2d(x, offset, mask, self.weight, self.bias, self.stride,
                                      self.padding, self.dilation, self.groups,
                                      self.deform_groups)
