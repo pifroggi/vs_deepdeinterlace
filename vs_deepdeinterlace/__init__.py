@@ -22,7 +22,7 @@ def YUV(clip: vs.VideoNode, matrix_in_s="709", range_in_s="limited", deinterlace
         if deinterlacer == 1:
             p = DDD(p, tff=tff, tta=tta, device=device, fp16=fp16)
         elif deinterlacer == 2:
-            p = DeF(p, tff=tff, tta=tta, device=device)
+            p = DeF(p, tff=tff, tta=tta, device=device, fp16=fp16)
         elif deinterlacer == 3:
             p = DfConvEkSA(p, tff=tff, tta=tta, mocomp=mocomp, device=device, fp16=fp16)
         else:
