@@ -14,7 +14,7 @@ This will double the frame rate, for example from 30i to 60p.
 * `pip install positional_encodings` (optional, only for DeF)  
 * `pip install -U openmim && pip install -U setuptools && python -m mim install "mmcv>=2.0.0"` (optional, only for DfConvEkSA)  
 
-Troulbeshooting: If you encounter errors during the installation of the DfConvEkSA requirements, try doing the following. On some systems a wheel needs to be build, which may take up to half an hour.
+If you encounter errors during the installation of the DfConvEkSA requirements, try doing the following. On some systems a wheel needs to be build, which may take up to half an hour.
 
     python -m mim uinstall mmcv
     pip install -U setuptools
@@ -25,7 +25,7 @@ Troulbeshooting: If you encounter errors during the installation of the DfConvEk
 Put the entire "vs_deepdeinterlace" folder into your scripts folder, or where you typically load scripts from.
 
 ## Usage
-Applying these deinterlacers directly to subsampled YUV videos comes with some chroma issues. This wrapper function works around this by deinterlacing luma and chroma seperately, keeping the subsampling intact. With this some parameters take two values: The first is for luma and the second for chroma.
+Applying these deinterlacers directly to YUV videos with chroma subsampling comes with some issues. This wrapper function works around this by deinterlacing luma and chroma seperately, keeping the subsampling intact. With this some parameters take two values: The first is for luma and the second for chroma.
 
     import vs_deepdeinterlace
     clip = vs_deepdeinterlace.YUV(clip, matrix_in_s="709", range_in_s="limited", deinterlacer=[3, 1], tff=True, tta=[False, False], mocomp=[False, False], device="cuda", fp16=True)
@@ -40,10 +40,10 @@ If your input clip is not subsampled, you can also use just one of the three dei
 __*`clip`*__  
 Interlaced clip, not seperated into fields.  
 Must be in YUV format for the YUV wrapper function.  
-Must be in RGBS format when using just one deinterlacer directly.
+Must be in RGBS format when using the DDD, DeF, or DfConvEkSA function directly.
 
-__*`matrix_in_s, range_in_s`*__  
-The color matrix and color range of the input clip, which also determines the output. Accepts everything that the vapoursynth resize function accepts.
+__*`matrix_in_s`, `range_in_s`*__  
+The color matrix and color range of the input clip when using the YUV wrapper function, which also determines the output.
 
 __*`deinterlacer`*__  
 The deinterlacer to use. The first value is for luma and the second for chroma. See the table at the top for details.  
