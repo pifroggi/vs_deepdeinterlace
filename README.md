@@ -14,15 +14,9 @@ This will double the frame rate, for example from 30i to 60p.
 * `pip install positional_encodings` (optional, only for DeF)  
 * `pip install -U openmim && pip install -U setuptools && python -m mim install "mmcv>=2.0.0"` (optional, only for DfConvEkSA)  
 
-If you encounter errors during the installation of the DfConvEkSA requirements, try doing the following. On some systems a wheel needs to be build, which may take up to half an hour.
-
-    python -m mim uinstall mmcv
-    pip install -U setuptools
-    pip cache purge
-    python -m mim install "mmcv>=2.0.0"
-
 ## Setup
-Put the entire "vs_deepdeinterlace" folder into your scripts folder, or where you typically load scripts from.
+Put the entire `vs_deepdeinterlace` folder into your vapoursynth scripts folder.  
+Or install via pip: `pip install git+https://github.com/pifroggi/vs_deepdeinterlace.git`
 
 ## Usage
 Applying these deinterlacers directly to YUV videos with chroma subsampling comes with some issues. This wrapper function works around this by deinterlacing luma and chroma seperately, keeping the subsampling intact. With this some parameters take two values: The first is for luma and the second for chroma.
@@ -66,7 +60,15 @@ Possible values are "cuda" to use with an Nvidia GPU, or "cpu". DDD is usable on
 __*`fp16`* (optional)__  
 Up to doubles processing speed and halves VRAM usage. Strongly recommended if your GPU supports it. Does not work on CPU. DfConvEkSA only benefits from fp16 when mocomp is active.
 
-## Tips
+## Tips & Troubleshooting
 * If you would like to finetune or improve the results, consider using one of these deinterlacers as "EdiExt"-clip in [QTGMC](https://github.com/HomeOfVapourSynthEvolution/havsfunc/blob/f11d79c98589c9dcb5b10beec35b631db68b495c/havsfunc/havsfunc.py#L1912). This helps to remove some remaining temporal shimmer.
 * The deinterlacers work okay for animation, but fail to use all information from the correct field on fast motions. May still be useful for orphaned fields. This is improved with the mocomp parameter.
 * In my testing DeF seemed to perform similarly to DDD in most areas, but many times slower. The main benefit of DeF is that is seems to be best at generating missing information when it is not present on the other input fields.
+
+* If installing the DfConvEkSA requirements does not work, try doing the following. On some systems a wheel needs to be build, which may take up to half an hour. If the driver, pytorch, or python is updated, reinstalling may be necessary, which can be done with the same commands.
+  ```
+  python -m mim uinstall mmcv
+  pip install -U setuptools
+  pip cache purge
+  python -m mim install "mmcv>=2.0.0"
+  ```
