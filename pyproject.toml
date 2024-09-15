@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vs_deepdeinterlace"
+version = "1.0.0"
+description = "AI Deinterlacing functions for Vapoursynth."
+authors = [{ name = "pifroggi" }]
+
+dependencies = [
+	"torch",
+    "numpy",
+    "positional_encodings"
+]
+
+[tool.setuptools.package-data]
+vs_deepdeinterlace = ["**/*.*"]
+
+[project.urls]
+Home-page = "https://github.com/pifroggi/vs_deepdeinterlace"
+Repository = "https://github.com/pifroggi/vs_deepdeinterlace"
