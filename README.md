@@ -61,14 +61,14 @@ __*`fp16`* (optional)__
 Up to doubles processing speed and halves VRAM usage. Strongly recommended if your GPU supports it. Does not work on CPU. DfConvEkSA only benefits from fp16 when mocomp is active.
 
 ## Tips & Troubleshooting
-* If you would like to finetune or improve the results, consider using one of these deinterlacers as "EdiExt"-clip in [QTGMC](https://github.com/HomeOfVapourSynthEvolution/havsfunc/blob/f11d79c98589c9dcb5b10beec35b631db68b495c/havsfunc/havsfunc.py#L1912). This helps to remove some remaining temporal shimmer.
-* The deinterlacers work okay for animation, but fail to use all information from the correct field on fast motions. May still be useful for orphaned fields. This is improved with the mocomp parameter.
-* In my testing DeF seemed to perform similarly to DDD in most areas, but many times slower. The main benefit of DeF is that is seems to be best at generating missing information when it is not present on the other input fields.
-
-* If installing the DfConvEkSA requirements does not work, try doing the following. On some systems a wheel needs to be build, which may take up to half an hour. If the driver, pytorch, or python is updated, reinstalling may be necessary, which can be done with the same commands.
+* If installing the DfConvEkSA requirements does not work, try doing the following. On some systems a wheel needs to be build, which may take up to half an hour. If the driver, pytorch, or python is updated, reinstalling may be necessary, which can be done with the same commands:
   ```
   python -m mim uinstall mmcv
   pip install -U setuptools
   pip cache purge
   python -m mim install "mmcv>=2.0.0"
   ```
+* If you would like to finetune or improve the results, consider using one of these deinterlacers as "EdiExt"-clip in [QTGMC](https://github.com/HomeOfVapourSynthEvolution/havsfunc/blob/f11d79c98589c9dcb5b10beec35b631db68b495c/havsfunc/havsfunc.py#L1912). This helps to remove some remaining temporal shimmer.
+* The deinterlacers work okay for animation, but fail to use all information from the correct field on fast motions. May still be useful for orphaned fields. This is improved with the mocomp parameter.
+* In my testing DeF seemed to perform similarly to DDD in most areas, but many times slower. The main benefit of DeF is that is seems to be best at generating missing information when it is not present on the other input fields.
+
