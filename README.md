@@ -69,10 +69,10 @@ Up to doubles processing speed and halves VRAM usage. Strongly recommended if yo
 <br />
 
 > [!CAUTION]
-> __What to do when encountering errors during the installation of DfConvEkSA requirements:__ Try doing the following. On some systems a wheel needs to be build, which may take up to half an hour. If the driver, pytorch, or python is updated, reinstalling may be necessary, which can be done with the same commands:
+> __DfConvEkSA installation or usage errors:__ Try the following commands in order. On some systems a wheel needs to be build, which may take up to half an hour. If the driver, pytorch, or python is updated, reinstalling may be necessary, which can be done with the same commands:
 > ```
-> python -m mim uinstall mmcv
 > pip install -U setuptools
+> python -m mim uninstall mmcv
 > pip cache purge
 > python -m mim install "mmcv>=2.0.0"
 > ```
