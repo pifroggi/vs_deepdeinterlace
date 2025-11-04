@@ -76,7 +76,8 @@ Up to doubles processing speed and halves VRAM usage. Strongly recommended if yo
 > pip cache purge
 > python -m mim install "mmcv>=2.0.0"
 > ```
-> Vapoursynth portable needs additional workarounds detailed in this [issue](https://github.com/pifroggi/vs_deepdeinterlace/issues/1#issuecomment-2619119389).
+> If it still doesn't work, or you are using VapourSynth Portable, you need additional workarounds detailed in this [issue](https://github.com/pifroggi/vs_deepdeinterlace/issues/1#issuecomment-2619119389).  
+> Alternatively, feel free to use my VapourSynth Docker Container which has mmcv preinstalled [here](https://github.com/pifroggi/vapoursynth-stuff/tree/main/docker).
 
 > [!TIP]
 > * If you would like to finetune or improve the results, consider using one of these deinterlacers as "EdiExt"-clip in [QTGMC](https://github.com/HomeOfVapourSynthEvolution/havsfunc/blob/f11d79c98589c9dcb5b10beec35b631db68b495c/havsfunc/havsfunc.py#L1912). This helps to remove some remaining temporal shimmer.
